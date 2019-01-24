@@ -1,6 +1,6 @@
 import requests
 import blockcypher
-from blockcypher import generate_new_address, is_valid_address
+from blockcypher import generate_new_address, is_valid_address, send_faucet_coins
 from django.shortcuts import render
 
 blockchainName = 'btc-testnet'
@@ -36,3 +36,9 @@ def newWallet(request):
         result = 'Ocorreu um erro, por favor tente novamente'
 
     return render(request, 'index.html', {'result': result})
+
+def send_faucet(request):
+    resp = send_faucet_coins(address_to_fund='mtZFGURoy8HTqJXXGdR6jGPywM38e7aPLD', satoshis=10000, api_key=token, coin_symbol=blockchainName)
+    print(str(resp))
+    return render(request, 'index.html')
+    
