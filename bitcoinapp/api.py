@@ -1,9 +1,13 @@
 import requests
 import blockcypher
-from blockcypher import generate_new_address, is_valid_address, send_faucet_coins
+from blockcypher import generate_new_address 
+from blockcypher import is_valid_address
+from blockcypher import send_faucet_coins
+from blockcypher import get_address_details
 from django.shortcuts import render
 
 blockchainName = 'btc-testnet'
+#blockchainName = 'bcy'
 token = '6149e29abaeb46f0a778caf1b8a6db9b'
 
 def getIp(request):
@@ -29,6 +33,7 @@ def newWallet(request):
 
         if resp:
             result = str(resp['address'])
+            print(str(resp))
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
@@ -38,7 +43,16 @@ def newWallet(request):
     return render(request, 'index.html', {'result': result})
 
 def send_faucet(request):
-    resp = send_faucet_coins(address_to_fund='mtZFGURoy8HTqJXXGdR6jGPywM38e7aPLD', satoshis=10000, api_key=token, coin_symbol=blockchainName)
+    resp = send_faucet_coins(address_to_fund='C7rHYXAkuk93n2umpgmG96nrwDawyS2SC6', satoshis=100000, api_key=token, coin_symbol=blockchainName)
     print(str(resp))
     return render(request, 'index.html')
     
+def addr_details(request):
+    addrObj = get_address_details('mtZFGURoy8HTqJXXGdR6jGPywM38e7aPLD', api_key=token, coin_symbol=blockchainName)
+    txrefs = addrObj['txrefs']
+    
+    lenn = len(txrefs)
+    print(lenn)
+    print(str(txrefs))
+
+    return render(request, 'index.html', {'txrefs': txrefs})

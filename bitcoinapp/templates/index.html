@@ -16,4 +16,15 @@
         <input type="submit" value="Faucet"> 
     </form>
 
+    <form action="/details/" method="GET">
+        <input type="submit" value="Details"> 
+    </form>
+
+    {% for txref in txrefs %}
+        <li>{{ txref }}</li>
+        <h5>transacao: {{txref.tx_hash}}<h5>
+        <h5>confirmacao: {{txref.confirmations}}<h5>
+        <h5>Data/hora: {{txref.confirmed}}<h5>
+    {% endfor %}
+
 {% endblock %}
