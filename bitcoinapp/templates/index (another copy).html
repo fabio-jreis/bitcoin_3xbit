@@ -16,14 +16,6 @@
         <input type="submit" value="Faucet"> 
     </form>
 
-    <form action="/send_btc/" method="GET">
-        <input type="submit" value="Enviar Bitcoin"> 
-    </form>
-
-    {% if tx_hash_send %}
-        <span>Foi enviado 1 satoshi com sucesso. TXHASH: {{tx_hash_send}}</span>
-    {% endif %}
-
     <form action="/details/" method="GET">
         <input type="submit" value="Details"> 
     </form>
