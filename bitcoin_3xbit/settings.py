@@ -34,7 +34,7 @@ DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
 TOKEN = config('TOKEN')
 PRIVKEY = config('PRIVKEY')
 
-ALLOWED_HOSTS = ['fabioreisbtcdesafio.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['fabioreisbtcdesafio.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
