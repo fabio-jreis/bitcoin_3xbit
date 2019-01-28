@@ -1,14 +1,13 @@
 {% block content %}
-    <h1>Passo 1: Crie sua carteira de bitcoin para envio<h1>
-    <form action="/new_wallet/" method="GET">
-        <input type="submit" value="Criar Bitcoin"> 
-    </form>
+    <h1>Passo 1: Criar endereco para deposito de bitcoin<h1>
+    <form action="/new_wallet_deposit/" method="GET">
+        <input type="submit" value="Gerar endereco"> 
+    </form>  
 
-     {% if result %}
-        <h2>Sua carteira foi criada: {{result}}</h2>
-        <span>Va para o passo 2:<span>
+      {% if result %}
+        <h2>Seu endereco para deposito foi criado com sucesso: {{result}}</h2>
+        <span>Va para o passo 2: <span>
         <a class="btn btn-primary" href="/step_02">Passo 2</a>
-    {% endif %}
-   
+    {% endif %} 
 
 {% endblock %}

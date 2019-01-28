@@ -1,8 +1,22 @@
 {% block content %}
-   <h1>Passo 2: Instrucoes para receber bitcoins na carteira de envio<h1>
-    <span>Use algum faucet de btc-testnet para receber alguns satoshis de btc na sua carteira criada.</span><br>
-    <span>Recomendacao: https://coinfaucet.eu/en/btc-testnet/</span><br>
+    <h1>Passo 2: Envio de bitcoin</h1>
 
-    <span>Apos realizar os passos acima, podera ir para o </span>
-     <a class="btn btn-primary" href="/step_03">Passo 3</a>
+    <h2>Preencha os campos abaixo para enviar 0.00000001 BTC</h2>
+
+    <h2>De: mtZFGURoy8HTqJXXGdR6jGPywM38e7aPLD</h2>
+    <h2>Para: {{gDepositBTC}}</h2>
+
+    <form action="/send_btc/" method="GET">
+        <input type="submit" value="Enviar"> 
+    </form>    
+
+    {% if tx_hash_send %}
+        <h3>Envio realizado com sucesso.</h3>
+        <h3>Transacao: {{tx_hash_send}}</h3>
+
+        <span>Passo3: status dos depositos <span>
+        <a class="btn btn-primary" href="/details_deposit">Passo 3</a>
+    {% endif %}
+
+
 {% endblock %}
