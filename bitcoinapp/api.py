@@ -61,8 +61,11 @@ def send_faucet(request):
     return render(request, 'index.html')
     
 def addr_details(request):
+
+    print("TESTE-DDDD: " + btcDeposit)
+
     try:
-        print("TESTE-D: " + btcDeposit)
+        #print("TESTE-D: " + btcDeposit)
         addrObj = get_address_details(btcDeposit, api_key=token, coin_symbol=blockchainName)
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
