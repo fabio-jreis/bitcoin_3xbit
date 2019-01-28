@@ -11,7 +11,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.core.mail import send_mail
 from .forms import ContactForm
-from bitcoinapp.models import BtcDeposit
+from bitcoinapp import views
 
 blockchainName = 'btc-testnet'
 token = settings.TOKEN
@@ -27,8 +27,6 @@ def getIp(request):
     })
 
 def init(request):
-    #BtcDeposit.save('')
-    #print('Inicio: '+ str(BtcDeposit.addr))
     return render(request, 'index.html')
 
 def get_hostname(request):
@@ -36,8 +34,8 @@ def get_hostname(request):
     return render(request, 'index.html', {'result': texto})
 
 def getDepositWallet(request):
-    print('TESTE-B: ' + BtcDeposit.addr)
-    return render(request, 'step2.html', {'gDepositBTC': BtcDeposit.addr})    
+    print('TESTE-B: ' + views.addr)
+    return render(request, 'step2.html', {'gDepositBTC': views.addr})    
 
 
 def newWallet(request):
@@ -47,8 +45,8 @@ def newWallet(request):
 
         if resp:
             result = str(resp['address'])
-            BtcDeposit.save(result)
-            print('TESTE-A: ' + BtcDeposit.addr)
+            views.setAddr(result)
+            print('TESTE-A: ' + views.addr)
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
@@ -63,23 +61,23 @@ def send_faucet(request):
     
 def addr_details(request):
     try:
-        print("TESTE-D: " + str(BtcDeposit.addr))
-        addrObj = get_address_details(BtcDeposit.addr, api_key=token, coin_symbol=blockchainName)
+        print("TESTE-D: " + str(views.addr))
+        addrObj = get_address_details(views.addr, api_key=token, coin_symbol=blockchainName)
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
 
-    return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': BtcDeposit.addr})
+    return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': views.addr})
 
 def send_btc(request):
 
     email = request.GET["email"]
-    print("TESTE-C: " + str(BtcDeposit.addr))
-    if BtcDeposit.addr == "":
+    print("TESTE-C: " + str(views.addr))
+    if views.addr == "":
         return render(request, 'step2.html')
 
     tx_hash = simple_spend(
                     from_privkey=privkey,
-                    to_address=BtcDeposit.addr,
+                    to_address=views.addr,
                     to_satoshis=_toSendSatoshis,
                     privkey_is_compressed=True,
                     api_key=token,
