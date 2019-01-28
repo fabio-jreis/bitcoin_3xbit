@@ -27,7 +27,8 @@ def getIp(request):
     })
 
 def init(request):
-    BtcDeposit.addr = ''
+    BtcDeposit.save('')
+    print('Inicio: '+BtcDeposit.addr)
     return render(request, 'index.html')
 
 def get_hostname(request):
@@ -46,7 +47,7 @@ def newWallet(request):
 
         if resp:
             result = str(resp['address'])
-            BtcDeposit.addr = result
+            BtcDeposit.save(result)
             print('TESTE-A: ' + BtcDeposit.addr)
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
