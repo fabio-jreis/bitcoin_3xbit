@@ -17,6 +17,7 @@ blockchainName = 'btc-testnet'
 token = settings.TOKEN
 privkey = settings.PRIVKEY
 _toSendSatoshis = 1
+btcDeposit = ""
 
 def getIp(request):
     response = requests.get('http://ip-api.com/json')
@@ -34,8 +35,8 @@ def get_hostname(request):
     return render(request, 'index.html', {'result': texto})
 
 def getDepositWallet(request):
-    print('TESTE-B: ' + views.addr)
-    return render(request, 'step2.html', {'gDepositBTC': views.addr})    
+    print('TESTE-B: ' + btcDeposit)
+    return render(request, 'step2.html', {'gDepositBTC': btcDeposit})    
 
 
 def newWallet(request):
@@ -45,8 +46,9 @@ def newWallet(request):
 
         if resp:
             result = str(resp['address'])
-            views.setAddr(result)
-            print('TESTE-A: ' + views.addr)
+            global btcDeposit
+            btcDeposit = result
+            print('TESTE-A: ' + btcDeposit)
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
@@ -61,23 +63,23 @@ def send_faucet(request):
     
 def addr_details(request):
     try:
-        print("TESTE-D: " + str(views.addr))
-        addrObj = get_address_details(views.addr, api_key=token, coin_symbol=blockchainName)
+        print("TESTE-D: " + btcDeposit)
+        addrObj = get_address_details(btcDeposit, api_key=token, coin_symbol=blockchainName)
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
 
-    return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': views.addr})
+    return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': btcDeposit})
 
 def send_btc(request):
 
     email = request.GET["email"]
-    print("TESTE-C: " + str(views.addr))
-    if views.addr == "":
+    print("TESTE-C: " + btcDeposit)
+    if btcDeposit == "":
         return render(request, 'step2.html')
 
     tx_hash = simple_spend(
                     from_privkey=privkey,
-                    to_address=views.addr,
+                    to_address=btcDeposit,
                     to_satoshis=_toSendSatoshis,
                     privkey_is_compressed=True,
                     api_key=token,

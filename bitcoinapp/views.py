@@ -2,12 +2,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 import requests
 
-addr = ''
-
-def setAddr(param):
-    global addr
-    addr = param
-
 def replace(request):
         text = "replaced"
         return render(request, 'index.html', {'text': text}) 
