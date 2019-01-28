@@ -1,8 +1,8 @@
 from django.db import models
 
 # Create your models here.
-class BtcDeposit(object):
-    addr = ''
+class BtcDeposit(models.Model):
+    addr = models.CharField(max_length=40)
 
     @staticmethod
     def save(x):
