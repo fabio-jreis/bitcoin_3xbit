@@ -1,0 +1,28 @@
+{% block content %}
+    <h1>Passo 2: Envio de bitcoin</h1>
+
+    {% if tx_hash_send == None %}
+    <h2>Ao clicar enviar, será feita uma transação de 0.00000001 BTC entre os endereços abaixo.</h2>
+
+    <h2>De: mtZFGURoy8HTqJXXGdR6jGPywM38e7aPLD</h2>
+    <h2>Para: {{gDepositBTC}}</h2>
+
+    <form action="/send_btc/" method="GET">
+        <input type="submit" value="Enviar"> 
+    </form>    
+    {% endif %}
+
+    {% if tx_hash_send %}
+        <h3>Envio realizado com sucesso.</h3>
+        <h3>Transacao: {{tx_hash_send}}</h3>
+
+        <span>Passo 3: Veja os status dos depósitos: <span>
+        <button style="margin-bottom: 18px;" value="status" onclick="location.href='/details_deposit'">Status</button><br>
+    
+        <span>Fazer um novo depósito para o mesmo endereço: <span>
+        <button style="margin-bottom: 18px;" value="deposito" onclick="location.href='/step_02'">Depósito</button>   
+    
+    {% endif %}
+
+
+{% endblock %}

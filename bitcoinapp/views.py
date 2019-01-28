@@ -14,4 +14,10 @@ class HomePageView(TemplateView):
    
 
 class AboutPageView(TemplateView):
-    template_name = "about.html"        
+    template_name = "about.html"   
+
+class step02PageView(TemplateView):
+    template_name = "step2.html"     
+
+class step03PageView(TemplateView):
+    template_name = "step3.html"  

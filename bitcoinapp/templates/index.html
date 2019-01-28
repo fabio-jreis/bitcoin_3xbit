@@ -1,30 +1,16 @@
 {% block content %}
-  <h2>GEO API</h2>
-  <p>Your ip address is <strong>{{ ip }}</strong>, and you are probably in <strong>{{ country }}</strong> right now.</p>
+    <h1>Passo 1: Criar endereço para depósito de bitcoin<h1>
 
-<h2>TESTE</h2>
-
-    <form action="/new_wallet/" method="GET">
-        <input type="submit" value="Depositar Bitcoin"> 
-    </form>
+    {% if result == None %}
+    <form action="/new_wallet_deposit/" method="GET">
+        <input type="submit" value="Gerar endereco"> 
+    </form>  
+    {% endif %}
 
     {% if result %}
-    <span>{{result}}</span>
-  {% endif %}
-
-    <form action="/faucet/" method="GET">
-        <input type="submit" value="Faucet"> 
-    </form>
-
-    <form action="/details/" method="GET">
-        <input type="submit" value="Details"> 
-    </form>
-
-    {% for txref in txrefs %}
-        <li>{{ txref }}</li>
-        <h5>transacao: {{txref.tx_hash}}<h5>
-        <h5>confirmacao: {{txref.confirmations}}<h5>
-        <h5>Data/hora: {{txref.confirmed}}<h5>
-    {% endfor %}
+        <h2>Seu endereço para depósito foi criado com sucesso: {{result}}</h2>
+        <span>Vá para o passo 2 e faça um depósito:<span>
+        <button style="margin-bottom: 18px;" value="Deposito" onclick="location.href='/step_02'">Depósito</button>   
+    {% endif %} 
 
 {% endblock %}
