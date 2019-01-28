@@ -2,9 +2,11 @@
 <link href="{{STATIC_URL}}/css/step3.css" rel="stylesheet">
 
 {% block content %}
-    <h1>Passo 3: Status dos depositos</h1>
+    <h1>Passo 3: Status dos depósitos</h1>
 
     <h2>Endereço de depósito: <span>{{gDepositBTC}}<span></h2> 
+
+    <button style="margin-bottom: 18px;" value="Atualizar" onClick="window.location.reload()">Atualizar</button>
 
     {% if addrObj %}
 
@@ -12,15 +14,14 @@
         <tbody>
         <tr>
             <td>STATUS</td>
-            <td>CONFIRMACOES</td>
+            <td>CONFIRMAÇOES</td>
             <td>HASH</td>
             <td>DATA</td>
         </tr>
 
             {% for un_txrefs in  addrObj.unconfirmed_txrefs%}
-
                 <!-- if para resolver duplicacao quando transacao nao esta confirmada -->
-                {% if forloop.last %} 
+                {% if un_txrefs.tx_output_n >= 0 %} 
                     <tr style='background-color: yellow'>
                     <td><span>Pendente</span></td>
                     <td>{{un_txrefs.confirmations}}</td>
@@ -33,7 +34,7 @@
 
             {% for txrefs in addrObj.txrefs %}
 
-                {% if txrefs.tx_output_n > 0 %}
+                {% if txrefs.tx_output_n >= 0 %}
                     {% if txrefs.confirmations < 2 %}
                         <tr style='background-color: yellow'>
                         <td><span>Pendente</span></td>
@@ -53,13 +54,9 @@
             {% endfor %}
         </tbody>
         </table>
-        
-
-
-        <!--<span>STATUS: {{txrefs}}</span>-->
     {% endif %}
 
-    <br><br><span>Fazer um novo deposito para o mesmo endereco: <span>
-    <a class="btn btn-primary" href="/step_02">Passo 2</a>    
+    <br><br><span>Fazer um novo depósito para o mesmo endereço: <span>
+    <button style="margin-bottom: 18px;" value="deposito" onclick="location.href='/step_02'">Depósito</button>   
 
 {% endblock %}

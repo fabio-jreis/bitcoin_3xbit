@@ -1,13 +1,16 @@
 {% block content %}
-    <h1>Passo 1: Criar endereco para deposito de bitcoin<h1>
+    <h1>Passo 1: Criar endereço para depósito de bitcoin<h1>
+
+    {% if result == None %}
     <form action="/new_wallet_deposit/" method="GET">
         <input type="submit" value="Gerar endereco"> 
     </form>  
+    {% endif %}
 
-      {% if result %}
-        <h2>Seu endereco para deposito foi criado com sucesso: {{result}}</h2>
-        <span>Va para o passo 2: <span>
-        <a class="btn btn-primary" href="/step_02">Passo 2</a>
+    {% if result %}
+        <h2>Seu endereço para depósito foi criado com sucesso: {{result}}</h2>
+        <span>Vá para o passo 2 e faça um depósito:<span>
+        <button style="margin-bottom: 18px;" value="Deposito" onclick="location.href='/step_02'">Depósito</button>   
     {% endif %} 
 
 {% endblock %}

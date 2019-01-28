@@ -60,26 +60,11 @@ def send_faucet(request):
 def addr_details(request):
     try:
         global _depositBTC
-        _depositBTC = 'mtZFGURoy8HTqJXXGdR6jGPywM38e7aPLD'
-        #print('_depositBTC: ' + _depositBTC)
         addrObj = get_address_details(_depositBTC, api_key=token, coin_symbol=blockchainName)
-        print('addrObj: ' + str(addrObj))
-        #txrefs = addrObj['txrefs']
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
 
-    #print(str(txrefs))
     return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': _depositBTC})
-
-
-    #addrObj = get_address_details('mtZFGURoy8HTqJXXGdR6jGPywM38e7aPLD', api_key=token, coin_symbol=blockchainName)
-    #txrefs = addrObj['txrefs']
-    
-    #lenn = len(txrefs)
-    #print(lenn)
-    #print(str(txrefs))
-
-    #return render(request, 'index.html', {'txrefs': txrefs})
 
 def send_btc(request):
 
