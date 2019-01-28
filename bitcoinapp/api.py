@@ -63,6 +63,7 @@ def send_faucet(request):
     
 def addr_details(request):
     try:
+        print("TESTE-D: " + str(BtcDeposit.addr))
         addrObj = get_address_details(BtcDeposit.addr, api_key=token, coin_symbol=blockchainName)
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
