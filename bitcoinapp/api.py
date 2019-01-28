@@ -28,7 +28,7 @@ def getIp(request):
 
 def init(request):
     #BtcDeposit.save('')
-    print('Inicio: '+BtcDeposit.addr)
+    #print('Inicio: '+ str(BtcDeposit.addr))
     return render(request, 'index.html')
 
 def get_hostname(request):
@@ -72,7 +72,7 @@ def addr_details(request):
 def send_btc(request):
 
     email = request.GET["email"]
-    print("TESTE-C: " + BtcDeposit.addr)
+    print("TESTE-C: " + str(BtcDeposit.addr))
     if BtcDeposit.addr == "":
         return render(request, 'step2.html')
 
