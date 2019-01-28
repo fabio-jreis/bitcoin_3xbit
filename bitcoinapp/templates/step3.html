@@ -1,0 +1,13 @@
+{% block content %}
+    <h1>Passo 3: Criar endereco para deposito de bitcoin<h1>
+    <form action="/new_wallet_deposit/" method="GET">
+        <input type="submit" value="Gerar endereco"> 
+    </form>  
+
+      {% if result %}
+        <h2>Seu endereco para deposito foi criado com sucesso: {{result}}</h2>
+        <span>Va para o passo 4 para realizar o deposito de bitcoin:<span>
+        <a class="btn btn-primary" href="/step_04">Passo 4</a>
+    {% endif %}   
+
+{% endblock %}

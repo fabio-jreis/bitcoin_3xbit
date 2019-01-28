@@ -29,6 +29,11 @@ def get_hostname(request):
 
 
 def newWallet(request):
+
+    page = request.path_info
+    pageRet = 'index.html'
+    print(page)
+
     try:
         resp = generate_new_address(coin_symbol=blockchainName, api_key=token)
         assert is_valid_address(resp['address']), resp
@@ -42,7 +47,11 @@ def newWallet(request):
     except :
         result = 'Ocorreu um erro, por favor tente novamente'
 
-    return render(request, 'index.html', {'result': result})
+    if page=='/new_wallet_deposit/':
+        pageRet = 'step3.html'
+
+    print('pageRet' + pageRet)
+    return render(request, pageRet, {'result': result})
 
 def send_faucet(request):
     resp = send_faucet_coins(address_to_fund='C7rHYXAkuk93n2umpgmG96nrwDawyS2SC6', satoshis=100000, api_key=token, coin_symbol=blockchainName)

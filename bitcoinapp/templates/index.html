@@ -1,38 +1,14 @@
 {% block content %}
-  <h2>GEO API</h2>
-  <p>Your ip address is <strong>{{ ip }}</strong>, and you are probably in <strong>{{ country }}</strong> right now.</p>
-
-<h2>TESTE</h2>
-
+    <h1>Passo 1: Crie sua carteira de bitcoin para envio<h1>
     <form action="/new_wallet/" method="GET">
-        <input type="submit" value="Depositar Bitcoin"> 
+        <input type="submit" value="Criar Bitcoin"> 
     </form>
 
-    {% if result %}
-    <span>{{result}}</span>
-  {% endif %}
-
-    <form action="/faucet/" method="GET">
-        <input type="submit" value="Faucet"> 
-    </form>
-
-    <form action="/send_btc/" method="GET">
-        <input type="submit" value="Enviar Bitcoin"> 
-    </form>
-
-    {% if tx_hash_send %}
-        <span>Foi enviado 1 satoshi com sucesso. TXHASH: {{tx_hash_send}}</span>
+     {% if result %}
+        <h2>Sua carteira foi criada: {{result}}</h2>
+        <span>Va para o passo 2:<span>
+        <a class="btn btn-primary" href="/step_02">Passo 2</a>
     {% endif %}
-
-    <form action="/details/" method="GET">
-        <input type="submit" value="Details"> 
-    </form>
-
-    {% for txref in txrefs %}
-        <li>{{ txref }}</li>
-        <h5>transacao: {{txref.tx_hash}}<h5>
-        <h5>confirmacao: {{txref.confirmations}}<h5>
-        <h5>Data/hora: {{txref.confirmed}}<h5>
-    {% endfor %}
+   
 
 {% endblock %}
