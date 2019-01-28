@@ -17,7 +17,6 @@ blockchainName = 'btc-testnet'
 token = settings.TOKEN
 privkey = settings.PRIVKEY
 _toSendSatoshis = 1
-btcDeposit = ""
 
 def getIp(request):
     response = requests.get('http://ip-api.com/json')
