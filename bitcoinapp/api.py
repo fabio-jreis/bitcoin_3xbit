@@ -13,7 +13,8 @@ from django.core.mail import send_mail
 from .forms import ContactForm
 
 blockchainName = 'btc-testnet'
-token = '6149e29abaeb46f0a778caf1b8a6db9b'
+token = settings.TOKEN
+privkey = settings.PRIVKEY
 _toSendSatoshis = 1
 _depositBTC = ""
 
@@ -26,9 +27,6 @@ def getIp(request):
     })
 
 def get_hostname(request):
-    print('get_hostname')
-    print(blockcypher.constants.COIN_SYMBOL_LIST)
-    print(blockcypher.get_token_info(token))
     texto = 'FABIO'
     return render(request, 'index.html', {'result': texto})
 
@@ -47,7 +45,6 @@ def newWallet(request):
             result = str(resp['address'])
             global _depositBTC
             _depositBTC = result
-            #print(str(resp))
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
@@ -58,7 +55,6 @@ def newWallet(request):
 
 def send_faucet(request):
     resp = send_faucet_coins(address_to_fund='C7rHYXAkuk93n2umpgmG96nrwDawyS2SC6', satoshis=100000, api_key=token, coin_symbol=blockchainName)
-    print(str(resp))
     return render(request, 'index.html')
     
 def addr_details(request):
@@ -78,7 +74,7 @@ def send_btc(request):
         return render(request, 'step2.html')
 
     tx_hash = simple_spend(
-                    from_privkey='68950c093e49f888dcb90b0180e4e438d7eb13589f606d37ca1bd9e2f4b23903',
+                    from_privkey=privkey,
                     to_address=_depositBTC,
                     to_satoshis=_toSendSatoshis,
                     privkey_is_compressed=True,
@@ -87,5 +83,4 @@ def send_btc(request):
 
     send_mail('Depósito realizado', 'Hash de transação: ' + tx_hash, settings.EMAIL_HOST_USER, [email], fail_silently=False)
     
-    print(str(tx_hash))
     return render(request, 'step2.html', {'tx_hash_send': tx_hash, 'email_send': email})
