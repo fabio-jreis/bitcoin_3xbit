@@ -37,7 +37,6 @@ def getDepositWallet(request):
 
 def newWallet(request):
     try:
-        print(_depositBTC)
         resp = generate_new_address(coin_symbol=blockchainName, api_key=token)
         assert is_valid_address(resp['address']), resp
 
@@ -64,6 +63,7 @@ def addr_details(request):
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
 
+    global _depositBTC
     return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': _depositBTC})
 
 def send_btc(request):
