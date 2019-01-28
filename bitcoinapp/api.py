@@ -35,6 +35,7 @@ def get_hostname(request):
     return render(request, 'index.html', {'result': texto})
 
 def getDepositWallet(request):
+    print('TESTE-B: ' + BtcDeposit.addr)
     return render(request, 'step2.html', {'gDepositBTC': BtcDeposit.addr})    
 
 
@@ -46,6 +47,7 @@ def newWallet(request):
         if resp:
             result = str(resp['address'])
             BtcDeposit.addr = result
+            print('TESTE-A: ' + BtcDeposit.addr)
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
