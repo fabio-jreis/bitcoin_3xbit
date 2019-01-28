@@ -11,12 +11,12 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.core.mail import send_mail
 from .forms import ContactForm
+from bitcoinapp.models import BtcDeposit
 
 blockchainName = 'btc-testnet'
 token = settings.TOKEN
 privkey = settings.PRIVKEY
 _toSendSatoshis = 1
-_depositBTC = ""
 
 def getIp(request):
     response = requests.get('http://ip-api.com/json')
@@ -26,13 +26,16 @@ def getIp(request):
         'country': geodata['country']
     })
 
+def init(request):
+    BtcDeposit.addr = ''
+    return render(request, 'index.html')
+
 def get_hostname(request):
     texto = 'FABIO'
     return render(request, 'index.html', {'result': texto})
 
 def getDepositWallet(request):
-    global _depositBTC
-    return render(request, 'step2.html', {'gDepositBTC': _depositBTC})    
+    return render(request, 'step2.html', {'gDepositBTC': BtcDeposit.addr})    
 
 
 def newWallet(request):
@@ -42,8 +45,7 @@ def newWallet(request):
 
         if resp:
             result = str(resp['address'])
-            global _depositBTC
-            _depositBTC = result
+            BtcDeposit.addr = result
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
@@ -58,24 +60,21 @@ def send_faucet(request):
     
 def addr_details(request):
     try:
-        global _depositBTC
-        addrObj = get_address_details(_depositBTC, api_key=token, coin_symbol=blockchainName)
+        addrObj = get_address_details(BtcDeposit.addr, api_key=token, coin_symbol=blockchainName)
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
 
-    global _depositBTC
-    return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': _depositBTC})
+    return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': BtcDeposit.addr})
 
 def send_btc(request):
 
     email = request.GET["email"]
-    global _depositBTC
-    if _depositBTC == "":
+    if BtcDeposit.addr == "":
         return render(request, 'step2.html')
 
     tx_hash = simple_spend(
                     from_privkey=privkey,
-                    to_address=_depositBTC,
+                    to_address=BtcDeposit.addr,
                     to_satoshis=_toSendSatoshis,
                     privkey_is_compressed=True,
                     api_key=token,

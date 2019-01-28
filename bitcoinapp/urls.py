@@ -5,7 +5,7 @@ from bitcoinapp import api
 
 
 urlpatterns = [
-    url(r'^$', api.getIp, name='getIp'),
+    url(r'^$', api.init, name='init'),
     url(r'^new_wallet_deposit/$', api.newWallet),
     url(r'^step_02/$', api.getDepositWallet),
     url(r'^send_btc/$', api.send_btc),
