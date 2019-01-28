@@ -88,4 +88,4 @@ def send_btc(request):
     send_mail('Depósito realizado', 'Hash de transação: ' + tx_hash, settings.EMAIL_HOST_USER, [email], fail_silently=False)
     
     print(str(tx_hash))
-    return render(request, 'step2.html', {'tx_hash_send': tx_hash})
+    return render(request, 'step2.html', {'tx_hash_send': tx_hash, 'email_send': email})

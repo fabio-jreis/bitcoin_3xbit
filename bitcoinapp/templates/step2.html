@@ -16,11 +16,12 @@
     {% if tx_hash_send %}
         <h3>Envio realizado com sucesso.</h3>
         <h3>Transacao: {{tx_hash_send}}</h3>
+        <span style="color: green">Foi eviado um email de confirmação para {{email_send}}</span><br><br>
 
-        <span>Passo 3: Veja os status dos depósitos: <span>
+        <span>Passo 3: Veja os status dos depósitos: </span>
         <button style="margin-bottom: 18px;" value="status" onclick="location.href='/details_deposit'">Status</button><br>
     
-        <span>Fazer um novo depósito para o mesmo endereço: <span>
+        <span>Fazer um novo depósito para o mesmo endereço: </span>
         <button style="margin-bottom: 18px;" value="deposito" onclick="location.href='/step_02'">Depósito</button>   
     
     {% endif %}
