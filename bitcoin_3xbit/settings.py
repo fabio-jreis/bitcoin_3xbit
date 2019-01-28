@@ -25,6 +25,15 @@ SECRET_KEY = 'emu_8jd*ap5_gs5+o0ti=axd1+j^nulwc$@tl+$=t-o5e%(0&x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'xxxx' #my gmail password
+EMAIL_HOST_USER = 'btcdesafio@gmail.com' #my gmail username
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 ALLOWED_HOSTS = []
 
 

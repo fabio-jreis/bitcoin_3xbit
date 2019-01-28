@@ -6,11 +6,15 @@ from blockcypher import send_faucet_coins
 from blockcypher import get_address_details
 from blockcypher import simple_spend
 from django.shortcuts import render
+from django.core.mail import EmailMessage
+
+from django.conf import settings
+from django.core.mail import send_mail
+from .forms import ContactForm
 
 blockchainName = 'btc-testnet'
 token = '6149e29abaeb46f0a778caf1b8a6db9b'
 _toSendSatoshis = 1
-
 _depositBTC = ""
 
 def getIp(request):
@@ -68,6 +72,7 @@ def addr_details(request):
 
 def send_btc(request):
 
+    email = request.GET["email"]
     global _depositBTC
     if _depositBTC == "":
         return render(request, 'step2.html')
@@ -79,6 +84,8 @@ def send_btc(request):
                     privkey_is_compressed=True,
                     api_key=token,
                     coin_symbol=blockchainName)
+
+    send_mail('Depósito realizado', 'Hash de transação: ' + tx_hash, settings.EMAIL_HOST_USER, [email], fail_silently=False)
     
     print(str(tx_hash))
     return render(request, 'step2.html', {'tx_hash_send': tx_hash})
