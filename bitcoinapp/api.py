@@ -12,6 +12,9 @@ from django.conf import settings
 from django.core.mail import send_mail
 from .forms import ContactForm
 from bitcoinapp import views
+from django.http import HttpResponse
+
+from bitcoinapp.models import Deposits
 
 blockchainName = 'btc-testnet'
 token = settings.TOKEN
@@ -27,6 +30,7 @@ def getIp(request):
     })
 
 def init(request):
+    Deposits.objetos.all().delete()
     return render(request, 'index.html')
 
 def get_hostname(request):
@@ -34,8 +38,11 @@ def get_hostname(request):
     return render(request, 'index.html', {'result': texto})
 
 def getDepositWallet(request):
-    print('TESTE-B: ' + btcDeposit)
-    return render(request, 'step2.html', {'gDepositBTC': btcDeposit})    
+
+    deposit = Deposits.objetos.filter().first()
+
+    print('TESTE-B: ' + deposit.address)
+    return render(request, 'step2.html', {'gDepositBTC': deposit.address})    
 
 
 def newWallet(request):
@@ -45,9 +52,14 @@ def newWallet(request):
 
         if resp:
             result = str(resp['address'])
-            global btcDeposit
-            btcDeposit = result
-            print('TESTE-A: ' + btcDeposit)
+
+            Deposits.objetos.all().delete()
+            deposit = Deposits(address=result)
+            deposit.save()          
+            
+            #global btcDeposit
+            #btcDeposit = result
+            #print('TESTE-A: ' + btcDeposit)
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
@@ -61,27 +73,27 @@ def send_faucet(request):
     return render(request, 'index.html')
     
 def addr_details(request):
-
-    print("TESTE-DDDD: " + btcDeposit)
-
     try:
-        #print("TESTE-D: " + btcDeposit)
-        addrObj = get_address_details(btcDeposit, api_key=token, coin_symbol=blockchainName)
+        deposit = Deposits.objetos.filter().first()
+        print("TESTE-D: " + deposit.address)
+        addrObj = get_address_details(deposit.address, api_key=token, coin_symbol=blockchainName)
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
 
-    return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': btcDeposit})
+    return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': deposit.address})
 
 def send_btc(request):
 
     email = request.GET["email"]
-    print("TESTE-C: " + btcDeposit)
-    if btcDeposit == "":
+    deposit = Deposits.objetos.filter().first()
+
+    print("TESTE-C: " + deposit.address)
+    if deposit.address == "":
         return render(request, 'step2.html')
 
     tx_hash = simple_spend(
                     from_privkey=privkey,
-                    to_address=btcDeposit,
+                    to_address=deposit.address,
                     to_satoshis=_toSendSatoshis,
                     privkey_is_compressed=True,
                     api_key=token,
