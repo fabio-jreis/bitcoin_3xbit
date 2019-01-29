@@ -30,11 +30,12 @@ def getIp(request):
     })
 
 def init(request):
-    
-    deposits =  Deposits.objetos.all()
 
-    if deposits.count() > 0:
-        deposits.delete()
+    if Deposits.objetos.all().exists():
+        deposits = Deposits.objetos.all()
+
+        if deposits.count() > 0:
+            deposits.delete()
 
     return render(request, 'index.html')
 
@@ -58,10 +59,11 @@ def newWallet(request):
         if resp:
             result = str(resp['address'])
 
-            deposits =  Deposits.objetos.all()
-
-            if deposits.count() > 0:
-                deposits.delete()
+            if Deposits.objetos.all().exists():
+                deposits =  Deposits.objetos.all()
+                
+                if deposits.count() > 0:
+                    deposits.delete()
         
             deposit = Deposits(address=result)
             deposit.save()          

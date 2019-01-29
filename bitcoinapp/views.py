@@ -5,6 +5,7 @@ import requests
 def replace(request):
         text = "replaced"
         return render(request, 'index.html', {'text': text}) 
+        
 
 # Create your views here.
 class HomePageView(TemplateView):
