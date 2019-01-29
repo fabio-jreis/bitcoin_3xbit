@@ -1,14 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.db import connection
 import requests
 
 def replace(request):
         text = "replaced"
         return render(request, 'index.html', {'text': text}) 
-        
-def db_table_exists(table_name):
-    return table_name in connection.introspection.table_names()        
+           
 
 # Create your views here.
 class HomePageView(TemplateView):
