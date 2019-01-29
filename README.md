@@ -2,4 +2,4 @@
 Desafio Bitcoin
 
 ## Tutorial
-[TUTORIAL] (tutorial.md)
+[TUTORIAL] (./tutorial.md)
