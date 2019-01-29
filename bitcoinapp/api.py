@@ -20,40 +20,26 @@ token = settings.TOKEN
 privkey = settings.PRIVKEY
 _toSendSatoshis = 1
 
-
 def init(request):
     if not request.session.session_key:
         request.session.create()
 
-    print(request.session.session_key)
-
-    deposits = Deposits.objetos.all()
-
-    if deposits.count() > 0:
-        deposits.delete()
-
     return render(request, 'index.html')
 
 def getDepositWallet(request):
-    print(request.session.session_key)
-    deposit = Deposits.objetos.filter().first()
+    deposit = Deposits.objetos.filter(key=request.session.session_key).latest('id')
+
     return render(request, 'step2.html', {'gDepositBTC': deposit.address})    
 
 
 def newWallet(request):
-    print(request.session.session_key)
     try:
         resp = generate_new_address(coin_symbol=blockchainName, api_key=token)
         assert is_valid_address(resp['address']), resp
 
         if resp:
             result = str(resp['address'])
-            deposits =  Deposits.objetos.all()
-            
-            if deposits.count() > 0:
-                deposits.delete()
-        
-            deposit = Deposits(address=result)
+            deposit = Deposits(address=result, key=request.session.session_key)
             deposit.save()          
             
         else:
@@ -66,9 +52,8 @@ def newWallet(request):
     return render(request, 'index.html', {'result': result})
     
 def addr_details(request):
-    print(request.session.session_key)
     try:
-        deposit = Deposits.objetos.filter().first()
+        deposit = Deposits.objetos.filter(key=request.session.session_key).latest('id')
         addrObj = get_address_details(deposit.address, api_key=token, coin_symbol=blockchainName)
     except:
         raise Exception('Ocorreu um erro, por favor tente novamente')
@@ -76,10 +61,8 @@ def addr_details(request):
     return render(request, 'step3.html', {'addrObj': addrObj, 'gDepositBTC': deposit.address})
 
 def send_btc(request):
-    print(request.session.session_key)
-
     email = request.GET["email"]
-    deposit = Deposits.objetos.filter().first()
+    deposit = Deposits.objetos.filter(key=request.session.session_key).latest('id')
 
     if deposit.address == "":
         return render(request, 'step2.html')
