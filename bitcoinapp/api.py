@@ -30,7 +30,9 @@ def getIp(request):
     })
 
 def init(request):
-    Deposits.objetos.all().delete()
+    try:
+        Deposits.objetos.all().delete()
+    
     return render(request, 'index.html')
 
 def get_hostname(request):
