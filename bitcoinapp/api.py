@@ -30,9 +30,12 @@ def getIp(request):
     })
 
 def init(request):
-    try:
-        Deposits.objetos.all().delete()
     
+    deposits =  Deposits.objetos.all()
+
+    if deposits.count() > 0:
+        deposits.delete()
+
     return render(request, 'index.html')
 
 def get_hostname(request):
@@ -55,13 +58,14 @@ def newWallet(request):
         if resp:
             result = str(resp['address'])
 
-            Deposits.objetos.all().delete()
+            deposits =  Deposits.objetos.all()
+
+            if deposits.count() > 0:
+                deposits.delete()
+        
             deposit = Deposits(address=result)
             deposit.save()          
             
-            #global btcDeposit
-            #btcDeposit = result
-            #print('TESTE-A: ' + btcDeposit)
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
