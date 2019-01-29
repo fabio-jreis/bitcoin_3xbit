@@ -2,6 +2,9 @@
 
 Projeto que utiliza a rede testnet do bitcoin para exemplificar um envio e recebimento de bitcoins utilizando python, django e a API da blockcypher.
 
+## Tutorial
+Veja em [tutorial.md](tutorial.md)
+
 ## Built With
 
 * [Python](https://www.python.org/) - The web framework used
