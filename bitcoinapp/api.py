@@ -71,8 +71,9 @@ def newWallet(request):
         else:
             raise Exception('Ocorreu um erro, por favor tente novamente')
 
-    except :
+    except Exception as e :
         result = 'Ocorreu um erro, por favor tente novamente'
+        print('error:' + e)
 
     return render(request, 'index.html', {'result': result})
 
