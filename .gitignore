@@ -2,4 +2,5 @@
 *.sqlite3
 .vEnv
 *pyc
+bitcoinapp/migrations/*
 .env
