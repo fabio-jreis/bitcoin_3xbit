@@ -31,7 +31,7 @@ def getIp(request):
 
 def init(request):
 
-    if Deposits.objetos.all().exists():
+    if views.db_table_exists(Deposits):
         deposits = Deposits.objetos.all()
 
         if deposits.count() > 0:
@@ -59,9 +59,9 @@ def newWallet(request):
         if resp:
             result = str(resp['address'])
 
-            if Deposits.objetos.all().exists():
+            if views.db_table_exists(Deposits):
                 deposits =  Deposits.objetos.all()
-                
+
                 if deposits.count() > 0:
                     deposits.delete()
         
